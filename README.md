@@ -45,7 +45,6 @@ Use the trained model to predict  for a new input value .
 ### Register Number: 212223230251
 
 ```
-
 import torch
 import torch.nn as nn
 import numpy as np
@@ -53,9 +52,9 @@ import matplotlib.pyplot as plt
 %matplotlib inline
 
 X = torch.linspace(1,70,70).reshape(-1,1)
-
 torch.manual_seed(71)
 e = torch.randint(-8,9,(70,1),dtype=torch.float)
+e
 
 y = 2*X + 1 + e
 print(y.shape)
@@ -65,75 +64,76 @@ plt.xlabel('x')
 plt.ylabel('y')
 plt.title('Generated Data for Linear Regression')
 plt.show()
-torch.manual_seed(59)
-```
 
-```
+
+torch.manual_seed(59)
 
 class Model(nn.Module):
     def __init__(self, in_features, out_features):
         super().__init__()
-        self.linear = nn.Linear(in_features, out_features)
-
-    def forward(self, x):
-        y_pred = self.linear(x)
-        return y_pred
-
+        self.linear=nn.Linear(in_features,out_features)
+    def forward(self,x):
+      return self.linear(x)
 
 torch.manual_seed(59)
-model = Model(1, 1)
-print('Weight:', model.linear.weight.item())
-print('Bias:  ', model.linear.bias.item())
+model=Model(1,1)
 
-loss_function = nn.MSELoss()
+initial_weight=model.linear.weight.item()
+initial_bias=model.linear.bias.item()
 
-optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)
+print("\nName: YUVA SREE M")
+print("\nRegister Number: 212223230251")
 
-epochs = 50
-losses = []
+print(f"\nInitial Weight: {initial_weight:.8f}, \nInitial Bias: {initial_bias:.8f}")
+loss_function=nn.MSELoss()
+optimizer=torch.optim.SGD(model.parameters(),lr=0.001)
+epochs=100
+losses=[]
+for epoch in range(1,epochs+1):
+  optimizer.zero_grad()
+  y_pred=model(X)
+  loss=loss_function(y_pred,y)
+  losses.append(loss.item())
+  loss.backward()
+  optimizer.step()
+  print(f"epoch: {epoch:2} loss: {loss.item():10.8f}"
+         f"weight: {model.linear.weight.item():10.8f}"
+         f"bias: {model.linear.bias.item():10.8f}")
 
-for epoch in range(1, epochs + 1):
-    optimizer.zero_grad()
-    y_pred = model(X)
-    loss = loss_function(y_pred, y)
-    losses.append(loss.item())
 
-    loss.backward()
-    optimizer.step()
-
-
-    print(f'epoch: {epoch:2}  loss: {loss.item():10.8f}  '
-          f'weight: {model.linear.weight.item():10.8f}  '
-          f'bias: {model.linear.bias.item():10.8f}')
-
-plt.plot(range(epochs), losses)
-plt.ylabel('Loss')
-plt.xlabel('epoch');
+plt.plot(range(epochs),losses,color="Blue")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Loss Curve")
 plt.show()
 
+final_weight=model.linear.weight.item()
+final_bias=model.linear.bias.item()
 
-x1 = torch.tensor([X.min().item(), X.max().item()])
+print("\nName: YUVA SREE M")
+print("\nRegister Number: 212223230251")
 
+print(f"\nFinal Weight: {final_weight:.8f}, Final Bias: {final_bias:.8f}")
+x1=torch.tensor([X.min().item(), X.max().item()])
+y1=x1*final_weight+final_bias
+print(x1)
+print(y1)
 
-w1, b1 = model.linear.weight.item(), model.linear.bias.item()
-
-
-y1 = x1 * w1 + b1
-
-
-print(f'Final Weight: {w1:.8f}, Final Bias: {b1:.8f}')
-print(f'X range: {x1.numpy()}')
-print(f'Predicted Y values: {y1.numpy()}')
-
-
-plt.scatter(X.numpy(), y.numpy(), label="Original Data")
-plt.plot(x1.numpy(), y1.numpy(), 'r', label="Best-Fit Line")
-plt.xlabel('x')
-plt.ylabel('y')
+plt.scatter(X.numpy(), y.numpy(), color='red', label='Original Data')
+plt.plot(x1.numpy(), y1.numpy(), color='cyan', label='Best-Fit Line')
+plt.xlabel('X')
+plt.ylabel('Y')
 plt.title('Trained Model: Best-Fit Line')
 plt.legend()
 plt.show()
 
+x_new=torch.tensor([[120.0]])
+y_new_pred=model(x_new).item()
+
+print("\nName: YUVA SREE M")
+print("\nRegister Number: 212223230251")
+
+print(f"\nPredicted for x = 120: {y_new_pred:.8f}")
 ```
 
 
@@ -154,7 +154,7 @@ Best Fit line plot
 
 
 ### New Sample Data Prediction
-<img width="1103" height="108" alt="image" src="https://github.com/user-attachments/assets/cce0bd5d-cb95-4eae-b363-15f0d9382a3f" />
+<img width="1049" height="344" alt="image" src="https://github.com/user-attachments/assets/5660ca9a-0b73-4132-bd35-9ae30cc920f8" />
 
 
 ## RESULT
